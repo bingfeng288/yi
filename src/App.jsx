@@ -206,6 +206,7 @@ export default function App() {
       currentStreak,
       todayGoalMet,
       exercisesCompleted,
+      domainVisits,
     };
 
     const newlyUnlocked = checkAchievements(state, unlocked);
