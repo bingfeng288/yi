@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #c8c4af transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #c8c4af;
+    border-radius: 3px;
+  }
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: #f8f8f6;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .yi-card {
+    @apply bg-white rounded-xl border border-ink-200 shadow-sm hover:shadow-md transition-shadow;
+  }
+  .yi-btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95;
+  }
+  .yi-btn-primary {
+    @apply yi-btn bg-ink-950 text-white hover:bg-ink-900;
+  }
+  .yi-btn-secondary {
+    @apply yi-btn bg-ink-100 text-ink-900 hover:bg-ink-200;
+  }
+  .yi-input {
+    @apply w-full px-4 py-2.5 rounded-lg border border-ink-200 bg-white
+           focus:outline-none focus:ring-2 focus:ring-ink-950/10 focus:border-ink-400
+           transition-all font-mono text-sm;
+  }
+  .yi-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .yi-tooltip {
+    @apply absolute z-50 px-3 py-1.5 bg-ink-950 text-white text-xs rounded-lg
+           shadow-lg pointer-events-none whitespace-nowrap;
+  }
+}
+
+/* Hexagram background pattern */
+.hex-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 20px,
+      #713f12 20px,
+      #713f12 22px,
+      transparent 22px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      #713f12 40px,
+      #713f12 42px,
+      transparent 42px,
+      transparent 44px
+    );
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+.animate-slideInLeft { animation: slideInLeft 0.3s ease-out; }
+.animate-scaleIn { animation: scaleIn 0.2s ease-out; }
