@@ -2,6 +2,11 @@
 // Each entry defines prerequisites and suggested next topics
 
 export const prerequisites = {
+  // Entry points (no prerequisites)
+  'math-arithmetic': [],
+  'phil-logic': [],
+  'ling-phonetics': [],
+
   // Math paths
   'math-algebra': ['math-arithmetic'],
   'math-geometry': ['math-arithmetic'],
@@ -88,7 +93,7 @@ export const prerequisites = {
   'pol-comparative': ['pol-theory'],
   'pol-ir': ['pol-theory'],
   'pol-policy': ['pol-comparative'],
-  'pol-chinese': ['pol-comparative'],
+  'pol-chinese': ['pol-comparative', 'hist-chinese'],
   'pol-philosophy': ['pol-theory', 'phil-ethics'],
 
   // Agriculture paths
@@ -117,16 +122,28 @@ export const prerequisites = {
   'ling-computational': ['ling-formal', 'cs-ai'],
   'ling-philosophy': ['ling-semantics', 'phil-epistemology'],
 
+  // Earth science paths
+  'earth-geology': ['chem-atomic', 'physics-mechanics'],
+  'earth-atmosphere': ['physics-thermo'],
+  'earth-ocean': ['physics-mechanics'],
+  'earth-astronomy': ['math-calculus', 'physics-relativity'],
+
+  // Engineering paths
+  'eng-materials': ['chem-atomic', 'physics-mechanics'],
+  'eng-electrical': ['physics-em'],
+  'eng-mechanical': ['physics-mechanics'],
+  'eng-civil': ['physics-mechanics', 'math-geometry'],
+
   // Arts paths
   'arts-visual': [],
   'arts-music': [],
-  'arts-dance': [],
-  'arts-calligraphy': [],
+  'arts-dance': ['arts-music'],
+  'arts-calligraphy': ['arts-visual'],
   'arts-literature': ['ling-semantics'],
   'arts-aesthetics': ['phil-ethics'],
   'arts-drama': ['arts-literature'],
   'arts-art-history': ['arts-visual'],
-  'arts-creative': [],
+  'arts-creative': ['arts-visual'],
 
   // History paths
   'hist-chinese': [],
