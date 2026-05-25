@@ -41,49 +41,52 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
 
-    const resize = () => {
+    // Mutable refs for dimensions and layout — always current
+    let W, H, cx, cy, R, nodes, edges;
+
+    const layout = () => {
       const rect = canvas.parentElement.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      cx = W / 2;
+      cy = H / 2;
+      R = Math.min(W, H) * 0.35;
+
+      nodes = tree.map((domain, i) => {
+        const angle = (i / tree.length) * Math.PI * 2 - Math.PI / 2;
+        const visitedCount = domain.children.filter(c => visited.has(c.id)).length;
+        return {
+          id: domain.id,
+          name: domain.name,
+          icon: domain.icon,
+          x: cx + R * Math.cos(angle),
+          y: cy + R * Math.sin(angle),
+          color: DOMAIN_COLORS[domain.id]?.accent || '#666',
+          total: domain.children.length,
+          visited: visitedCount,
+          domain,
+        };
+      });
+
+      const nodeMap = {};
+      for (const n of nodes) nodeMap[n.id] = n;
+
+      edges = buildDomainEdges(tree).map(e => ({
+        ...e,
+        fromNode: nodeMap[e.from],
+        toNode: nodeMap[e.to],
+      })).filter(e => e.fromNode && e.toNode);
     };
-    resize();
 
-    const W = canvas.parentElement.getBoundingClientRect().width;
-    const H = canvas.parentElement.getBoundingClientRect().height;
-    const cx = W / 2;
-    const cy = H / 2;
-    const R = Math.min(W, H) * 0.35;
+    layout();
 
-    // Position domains in a circle
-    const nodes = tree.map((domain, i) => {
-      const angle = (i / tree.length) * Math.PI * 2 - Math.PI / 2;
-      const visitedCount = domain.children.filter(c => visited.has(c.id)).length;
-      return {
-        id: domain.id,
-        name: domain.name,
-        icon: domain.icon,
-        x: cx + R * Math.cos(angle),
-        y: cy + R * Math.sin(angle),
-        color: DOMAIN_COLORS[domain.id]?.accent || '#666',
-        total: domain.children.length,
-        visited: visitedCount,
-        domain,
-      };
-    });
-
-    const nodeMap = {};
-    for (const n of nodes) nodeMap[n.id] = n;
-
-    const edges = buildDomainEdges(tree).map(e => ({
-      ...e,
-      fromNode: nodeMap[e.from],
-      toNode: nodeMap[e.to],
-    })).filter(e => e.fromNode && e.toNode);
-
-    // Draw function — reads hoveredNode from ref
+    // Draw function — reads hoveredNode from ref, uses current W/H/nodes
     const draw = () => {
       const hoveredNode = hoveredRef.current;
       ctx.clearRect(0, 0, W, H);
@@ -206,7 +209,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
     canvas.addEventListener('click', handleClick);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
-    const onResize = () => { resize(); draw(); };
+    const onResize = () => { layout(); draw(); };
     window.addEventListener('resize', onResize);
 
     return () => {
@@ -215,7 +218,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
       canvas.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', onResize);
     };
-  }, [tree, visited]); // hoveredNode removed from deps!
+  }, [tree, visited]);
 
   return (
     <div className="relative w-full" style={{ height: 400 }}>

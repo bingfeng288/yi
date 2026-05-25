@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { LEVELS, DOMAIN_COLORS } from '../data/knowledgeTree';
 import KnowledgeGraph from './KnowledgeGraph';
 import { ACHIEVEMENTS } from '../data/achievements';
-import { calcStreak, getTodayCount, getLast7Days } from '../data/streak';
+import { calcStreak, getTodayCount, getLast7Days, serializeDailyVisits } from '../data/streak';
 
 export default function StudyDashboard({ isOpen, onClose, tree, visited, bookmarks, notes, recent, unlocked, dailyVisits, dailyGoal, onSetDailyGoal, exerciseProgress, reviewStats, reviewData, onSelect, onImport }) {
   const [activeTab, setActiveTab] = useState('overview');
@@ -37,7 +37,7 @@ export default function StudyDashboard({ isOpen, onClose, tree, visited, bookmar
 
   const handleExport = () => {
     const data = {
-      version: 4,
+      version: 5,
       exportedAt: new Date().toISOString(),
       visited: [...visited],
       bookmarks: [...bookmarks],
@@ -45,7 +45,7 @@ export default function StudyDashboard({ isOpen, onClose, tree, visited, bookmar
       recent: recent || [],
       exercises: exerciseProgress || {},
       review: reviewData || {},
-      dailyVisits: dailyVisits || {},
+      dailyVisits: dailyVisits ? serializeDailyVisits(dailyVisits) : {},
       dailyGoal: dailyGoal || 3,
       unlocked: unlocked ? [...unlocked] : [],
     };

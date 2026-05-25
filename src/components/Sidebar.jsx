@@ -12,6 +12,11 @@ export default function Sidebar({ tree, expanded, onToggle, onSelect, selectedId
     if (!normalizedFilter) return tree;
     return tree
       .map(domain => {
+        // Domain name matches → show all children
+        if (domain.name.toLowerCase().includes(normalizedFilter)) {
+          return { ...domain, filteredChildren: domain.children };
+        }
+        // Otherwise filter by topic name/keywords
         const matchingChildren = domain.children.filter(node =>
           node.name.toLowerCase().includes(normalizedFilter) ||
           node.keywords?.some(k => k.toLowerCase().includes(normalizedFilter))

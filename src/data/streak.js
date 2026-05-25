@@ -4,7 +4,10 @@ const STORAGE_KEY = 'yi-daily-visits';
 const GOAL_KEY = 'yi-daily-goal';
 
 function dateStr(d) {
-  return d.toISOString().slice(0, 10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 function today() {
@@ -29,11 +32,26 @@ export function loadDailyVisits() {
 
 // Save daily visit map
 export function saveDailyVisits(visits) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeDailyVisits(visits)));
+}
+
+// Serialize dailyVisits for JSON export (Sets → arrays)
+export function serializeDailyVisits(visits) {
   const raw = {};
   for (const [k, v] of Object.entries(visits)) {
-    raw[k] = [...v];
+    raw[k] = v instanceof Set ? [...v] : Array.isArray(v) ? v : [];
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+  return raw;
+}
+
+// Deserialize dailyVisits from JSON import (arrays → Sets)
+export function deserializeDailyVisits(raw) {
+  if (!raw || typeof raw !== 'object') return {};
+  const result = {};
+  for (const [k, v] of Object.entries(raw)) {
+    result[k] = new Set(Array.isArray(v) ? v : []);
+  }
+  return result;
 }
 
 // Record a visit for today (immutable — never mutates previous state)
@@ -79,10 +97,11 @@ export function calcBestStreak(visits) {
   let current = 1;
 
   for (let i = 1; i < days.length; i++) {
-    const prev = new Date(days[i - 1]);
-    const curr = new Date(days[i]);
-    const diff = (curr - prev) / (1000 * 60 * 60 * 24);
-    if (diff === 1) {
+    // Compare date strings to avoid DST issues with millisecond math
+    const prev = new Date(days[i - 1] + 'T00:00:00');
+    const curr = new Date(days[i] + 'T00:00:00');
+    const diffDays = Math.round((curr - prev) / 86400000);
+    if (diffDays === 1) {
       current++;
       best = Math.max(best, current);
     } else {

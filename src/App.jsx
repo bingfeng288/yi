@@ -9,7 +9,7 @@ import SearchResults from './components/SearchResults';
 import StudyDashboard from './components/StudyDashboard';
 import ShortcutHelp from './components/ShortcutHelp';
 import { ACHIEVEMENTS, checkAchievements, loadUnlocked } from './data/achievements';
-import { loadDailyVisits, saveDailyVisits, recordVisit, calcStreak, calcBestStreak, getTodayCount, loadDailyGoal, saveDailyGoal, getLast7Days } from './data/streak';
+import { loadDailyVisits, saveDailyVisits, recordVisit, calcStreak, calcBestStreak, getTodayCount, loadDailyGoal, saveDailyGoal, getLast7Days, deserializeDailyVisits } from './data/streak';
 import { loadExerciseProgress, saveExerciseProgress, toggleExercise, saveThought } from './data/exercises';
 import { loadReviewData, saveReviewData, recordReviewVisit, getReviewDue, getReviewStats, migrateReviewData } from './data/review';
 
@@ -472,7 +472,7 @@ export default function App() {
           if (data.recent) setRecent(data.recent);
           if (data.exercises) setExerciseProgress(data.exercises);
           if (data.review) setReviewData(data.review);
-          if (data.dailyVisits) setDailyVisits(data.dailyVisits);
+          if (data.dailyVisits) setDailyVisits(deserializeDailyVisits(data.dailyVisits));
           if (data.dailyGoal) setDailyGoal(data.dailyGoal);
           if (data.unlocked) setUnlocked(new Set(data.unlocked));
         }}
