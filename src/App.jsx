@@ -47,7 +47,7 @@ export default function App() {
   const [toolPanelOpen, setToolPanelOpen] = useState(false);
   const [activeTool, setActiveTool] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [visited, setVisited] = useState(loadVisited);
   const [notes, setNotes] = useState(loadNotes);
   const [bookmarks, setBookmarks] = useState(loadBookmarks);

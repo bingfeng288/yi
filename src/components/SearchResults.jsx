@@ -3,15 +3,14 @@ import { LEVELS, DOMAIN_COLORS } from '../data/knowledgeTree';
 
 function highlightMatch(text, query) {
   if (!query.trim()) return text;
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text;
-  const before = text.slice(0, idx);
-  const match = text.slice(idx, idx + query.length);
-  const after = text.slice(idx + query.length);
-  return (
-    <>
-      {before}<mark className="bg-yellow-200 text-ink-950 rounded px-0.5">{match}</mark>{after}
-    </>
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  if (parts.length === 1) return text;
+  const lowerQuery = query.toLowerCase();
+  return parts.map((part, i) =>
+    part.toLowerCase() === lowerQuery
+      ? <mark key={i} className="bg-yellow-200 text-ink-950 rounded px-0.5">{part}</mark>
+      : part
   );
 }
 
