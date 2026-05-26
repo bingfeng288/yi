@@ -111,7 +111,7 @@ export default function Calculator() {
     <div className="max-w-sm mx-auto">
       {/* Display */}
       <div className="bg-ink-950 rounded-xl p-4 mb-4">
-        <div className="text-xs text-ink-400 font-mono mb-1 h-5 overflow-hidden text-right">
+        <div className="text-xs text-ink-400 dark:text-ink-300 font-mono mb-1 h-5 overflow-hidden text-right">
           {expr || ' '}
         </div>
         <div className="text-3xl text-white font-mono text-right truncate">
@@ -161,10 +161,10 @@ export default function Calculator() {
       {/* History */}
       {history.length > 0 && (
         <div className="mt-4 pt-3 border-t border-ink-100">
-          <div className="text-xs text-ink-400 mb-2">历史记录</div>
+          <div className="text-xs text-ink-400 dark:text-ink-300 mb-2">历史记录</div>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {history.map((h, i) => (
-              <div key={i} className="text-xs text-ink-500 font-mono">{h}</div>
+              <div key={i} className="text-xs text-ink-500 dark:text-ink-200 font-mono">{h}</div>
             ))}
           </div>
         </div>

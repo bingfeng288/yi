@@ -157,7 +157,7 @@ export default function MathViz() {
     <div className="max-w-2xl mx-auto">
       {/* Expression input */}
       <div className="mb-3">
-        <label className="text-sm text-ink-500 mb-1 block">
+        <label className="text-sm text-ink-500 dark:text-ink-200 mb-1 block">
           函数表达式（变量为 x，支持 sin/cos/tan/log/ln/sqrt/exp/abs）
         </label>
         <input
@@ -171,7 +171,7 @@ export default function MathViz() {
 
       {/* Presets */}
       <div className="flex flex-wrap gap-2 mb-4">
-        <span className="text-xs text-ink-400 self-center">预设：</span>
+        <span className="text-xs text-ink-400 dark:text-ink-300 self-center">预设：</span>
         {PRESETS.map((p, i) => (
           <button
             key={i}
@@ -197,7 +197,7 @@ export default function MathViz() {
           { label: 'Y max', value: yMax, setter: setYMax },
         ].map(({ label, value, setter }) => (
           <div key={label}>
-            <label className="text-xs text-ink-400 mb-1 block">{label}</label>
+            <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">{label}</label>
             <input
               type="number"
               value={value}

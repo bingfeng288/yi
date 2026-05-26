@@ -479,7 +479,7 @@ export const crossReferences = {
   'law-criminal': [
     { id: 'phil-ethics', label: '刑罚的伦理正当性' },
     { id: 'bio-neuro', label: '神经犯罪学：大脑与犯罪' },
-    { id: 'med-psychology', label: '犯罪心理学' },
+    { id: 'med-pathology', label: '犯罪行为的病理学视角' },
   ],
   'law-international': [
     { id: 'pol-ir', label: '国际法是国际关系的规则' },

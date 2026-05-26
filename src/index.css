@@ -2,23 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ink-300: #918c7e;
+  --ink-400: #706b5f;
+  --ink-500: #5c5749;
+  --ink-600: #4d483e;
+  --ink-700: #796c52;
+  --ink-800: #645946;
+  --ink-900: #524a3b;
+  --ink-scroll-300: #918c7e;
+}
+.dark {
+  --ink-300: #a39e8e;
+  --ink-400: #918c7e;
+  --ink-500: #7f7a6e;
+  --ink-600: #706b5f;
+  --ink-700: #645946;
+  --ink-800: #4a443b;
+  --ink-900: #3d3730;
+  --ink-scroll-300: #7f7a6e;
+}
+
 @layer base {
   * {
     scrollbar-width: thin;
-    scrollbar-color: #c8c4af transparent;
+    scrollbar-color: var(--ink-scroll-300) transparent;
+  }
+  .dark * {
+    scrollbar-color: var(--ink-900) transparent;
   }
   *::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   *::-webkit-scrollbar-thumb {
-    background: #c8c4af;
+    background: var(--ink-scroll-300);
     border-radius: 3px;
+  }
+  .dark *::-webkit-scrollbar-thumb {
+    background: var(--ink-900);
   }
   body {
     font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
     background: #f8f8f6;
     overflow: hidden;
+  }
+  .dark body {
+    background: #1a1814;
+    color: #e8e4d8;
   }
 }
 
@@ -26,19 +57,32 @@
   .yi-card {
     @apply bg-white rounded-xl border border-ink-200 shadow-sm hover:shadow-md transition-shadow;
   }
+  .dark .yi-card {
+    @apply bg-ink-900 border-ink-800 shadow-none;
+  }
   .yi-btn {
     @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95;
   }
   .yi-btn-primary {
     @apply yi-btn bg-ink-950 text-white hover:bg-ink-900;
   }
+  .dark .yi-btn-primary {
+    @apply bg-ink-100 text-ink-950 hover:bg-ink-200;
+  }
   .yi-btn-secondary {
     @apply yi-btn bg-ink-100 text-ink-900 hover:bg-ink-200;
+  }
+  .dark .yi-btn-secondary {
+    @apply bg-ink-800 text-ink-100 hover:bg-ink-700;
   }
   .yi-input {
     @apply w-full px-4 py-2.5 rounded-lg border border-ink-200 bg-white
            focus:outline-none focus:ring-2 focus:ring-ink-950/10 focus:border-ink-400
            transition-all font-mono text-sm;
+  }
+  .dark .yi-input {
+    @apply bg-ink-800 border-ink-700 text-ink-100 placeholder:text-ink-500
+           focus:ring-ink-100/10 focus:border-ink-500;
   }
   .yi-badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
@@ -47,6 +91,30 @@
     @apply absolute z-50 px-3 py-1.5 bg-ink-950 text-white text-xs rounded-lg
            shadow-lg pointer-events-none whitespace-nowrap;
   }
+}
+
+/* Dark mode hexagram pattern */
+.dark .hex-bg {
+  opacity: 0.02;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 20px,
+      #9e946e 20px,
+      #9e946e 22px,
+      transparent 22px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      #9e946e 40px,
+      #9e946e 42px,
+      transparent 42px,
+      transparent 44px
+    );
 }
 
 /* Hexagram background pattern */

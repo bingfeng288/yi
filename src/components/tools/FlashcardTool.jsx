@@ -111,14 +111,14 @@ export default function FlashcardTool() {
           >
             {!flipped ? (
               <div className="text-center">
-                <div className="text-xs text-ink-400 mb-2">{currentCard.category}</div>
+                <div className="text-xs text-ink-400 dark:text-ink-300 mb-2">{currentCard.category}</div>
                 <div className="text-lg text-ink-950 font-medium">{currentCard.front}</div>
-                <div className="text-sm text-ink-300 mt-4">点击翻转查看答案</div>
+                <div className="text-sm text-ink-300 dark:text-ink-400 mt-4">点击翻转查看答案</div>
               </div>
             ) : (
               <div className="text-center">
-                <div className="text-sm text-ink-500 leading-relaxed">{currentCard.back}</div>
-                <div className="text-sm text-ink-300 mt-4">点击翻回问题</div>
+                <div className="text-sm text-ink-500 dark:text-ink-200 leading-relaxed">{currentCard.back}</div>
+                <div className="text-sm text-ink-300 dark:text-ink-400 mt-4">点击翻回问题</div>
               </div>
             )}
           </div>
@@ -129,15 +129,15 @@ export default function FlashcardTool() {
               <button
                 onClick={() => { setCurrentIndex(Math.max(0, currentIndex - 1)); setFlipped(false); }}
                 disabled={currentIndex === 0}
-                className="text-sm text-ink-500 hover:text-ink-950 disabled:opacity-30 transition-colors"
+                className="text-sm text-ink-500 dark:text-ink-200 hover:text-ink-950 disabled:opacity-30 transition-colors"
               >
                 ← 上一张
               </button>
-              <span className="text-sm text-ink-400">{currentIndex + 1} / {filtered.length}</span>
+              <span className="text-sm text-ink-400 dark:text-ink-300">{currentIndex + 1} / {filtered.length}</span>
               <button
                 onClick={() => { setCurrentIndex(Math.min(filtered.length - 1, currentIndex + 1)); setFlipped(false); }}
                 disabled={currentIndex === filtered.length - 1}
-                className="text-sm text-ink-500 hover:text-ink-950 disabled:opacity-30 transition-colors"
+                className="text-sm text-ink-500 dark:text-ink-200 hover:text-ink-950 disabled:opacity-30 transition-colors"
               >
                 下一张 →
               </button>
@@ -147,7 +147,7 @@ export default function FlashcardTool() {
           {/* SM-2 rating (quiz mode, after flip) */}
           {mode === 'quiz' && flipped && (
             <div className="space-y-3">
-              <div className="text-sm text-ink-500 text-center mb-2">你记住了吗？</div>
+              <div className="text-sm text-ink-500 dark:text-ink-200 text-center mb-2">你记住了吗？</div>
               <div className="grid grid-cols-4 gap-2">
                 {[
                   { q: 1, label: '忘了', color: 'bg-red-100 text-red-700 hover:bg-red-200' },
@@ -172,14 +172,14 @@ export default function FlashcardTool() {
                   </button>
                 ))}
               </div>
-              <div className="text-xs text-ink-300 text-center">
+              <div className="text-xs text-ink-300 dark:text-ink-400 text-center">
                 {quizIndex + 1} / {quizCards.length}
               </div>
             </div>
           )}
         </div>
       ) : (
-        <div className="yi-card p-8 text-center text-ink-400">
+        <div className="yi-card p-8 text-center text-ink-400 dark:text-ink-300">
           没有卡片
         </div>
       )}
@@ -189,17 +189,17 @@ export default function FlashcardTool() {
         <div className="grid grid-cols-3 gap-4 text-center text-sm">
           <div>
             <div className="text-2xl font-bold text-ink-950">{filtered.length}</div>
-            <div className="text-xs text-ink-400">总卡片</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">总卡片</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-ink-950">{Object.keys(scores).length}</div>
-            <div className="text-xs text-ink-400">已复习</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">已复习</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-ink-950">
               {Object.values(scores).filter(s => s.repetitions >= 3).length}
             </div>
-            <div className="text-xs text-ink-400">已掌握</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">已掌握</div>
           </div>
         </div>
       </div>

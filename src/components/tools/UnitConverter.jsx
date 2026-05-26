@@ -139,7 +139,7 @@ export default function UnitConverter() {
 
       {/* Input */}
       <div className="mb-4">
-        <label className="text-xs text-ink-400 mb-1 block">输入值</label>
+        <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">输入值</label>
         <div className="flex gap-2">
           <input
             type="number"
@@ -174,7 +174,7 @@ export default function UnitConverter() {
 
       {/* Result */}
       <div className="mb-4">
-        <label className="text-xs text-ink-400 mb-1 block">结果</label>
+        <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">结果</label>
         <div className="flex gap-2">
           <div className="yi-input flex-1 bg-ink-50 font-bold text-ink-950">
             {result}
@@ -193,7 +193,7 @@ export default function UnitConverter() {
 
       {/* Formula */}
       <div className="yi-card p-4 text-center">
-        <p className="text-sm text-ink-500">
+        <p className="text-sm text-ink-500 dark:text-ink-200">
           {inputVal || '0'} {cat.units[fromUnit].name} = {result} {cat.units[toUnit].name}
         </p>
       </div>

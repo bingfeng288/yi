@@ -128,15 +128,15 @@ function ProjectileSim() {
     <div>
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">初速度 (m/s)</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">初速度 (m/s)</label>
           <input type="number" value={v0} onChange={e => setV0(+e.target.value)} className="yi-input text-sm" />
         </div>
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">角度 (°)</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">角度 (°)</label>
           <input type="number" value={angle} onChange={e => setAngle(+e.target.value)} className="yi-input text-sm" />
         </div>
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">重力加速度</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">重力加速度</label>
           <input type="number" value={g} onChange={e => setG(+e.target.value)} className="yi-input text-sm" />
         </div>
       </div>
@@ -150,15 +150,15 @@ function ProjectileSim() {
         <div className="grid grid-cols-3 gap-3 text-center">
           <div className="yi-card p-3">
             <div className="text-lg font-bold font-mono text-ink-950">{data.maxDist}m</div>
-            <div className="text-xs text-ink-400">水平距离</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">水平距离</div>
           </div>
           <div className="yi-card p-3">
             <div className="text-lg font-bold font-mono text-ink-950">{data.maxHeight}m</div>
-            <div className="text-xs text-ink-400">最大高度</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">最大高度</div>
           </div>
           <div className="yi-card p-3">
             <div className="text-lg font-bold font-mono text-ink-950">{data.totalTime}s</div>
-            <div className="text-xs text-ink-400">滞空时间</div>
+            <div className="text-xs text-ink-400 dark:text-ink-300">滞空时间</div>
           </div>
         </div>
       )}
@@ -278,19 +278,19 @@ function SpringSim() {
     <div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">弹簧常数 k</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">弹簧常数 k</label>
           <input type="number" value={k} onChange={e => setK(+e.target.value)} className="yi-input text-sm" />
         </div>
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">质量 m</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">质量 m</label>
           <input type="number" value={mass} onChange={e => setMass(+e.target.value)} className="yi-input text-sm" />
         </div>
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">阻尼 c</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">阻尼 c</label>
           <input type="number" value={damp} step="0.1" onChange={e => setDamp(+e.target.value)} className="yi-input text-sm" />
         </div>
         <div>
-          <label className="text-xs text-ink-400 mb-1 block">初始位移</label>
+          <label className="text-xs text-ink-400 dark:text-ink-300 mb-1 block">初始位移</label>
           <input type="number" value={x0} onChange={e => setX0(+e.target.value)} className="yi-input text-sm" />
         </div>
       </div>

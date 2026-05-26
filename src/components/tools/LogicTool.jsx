@@ -133,7 +133,7 @@ export default function LogicTool() {
     <div className="max-w-2xl mx-auto">
       {/* Input */}
       <div className="mb-4">
-        <label className="text-sm text-ink-500 mb-1 block">
+        <label className="text-sm text-ink-500 dark:text-ink-200 mb-1 block">
           输入逻辑表达式（变量用字母，运算符用按钮或直接输入）
         </label>
         <input
@@ -178,7 +178,7 @@ export default function LogicTool() {
 
       {/* Presets */}
       <div className="flex flex-wrap gap-2 mb-6">
-        <span className="text-xs text-ink-400 self-center">预设：</span>
+        <span className="text-xs text-ink-400 dark:text-ink-300 self-center">预设：</span>
         {PRESETS.map((p, i) => (
           <button
             key={i}
@@ -247,7 +247,7 @@ export default function LogicTool() {
       )}
 
       {!result && expr.trim() && (
-        <div className="yi-card p-4 text-center text-sm text-ink-400">
+        <div className="yi-card p-4 text-center text-sm text-ink-400 dark:text-ink-300">
           无法解析表达式。请检查语法。
         </div>
       )}

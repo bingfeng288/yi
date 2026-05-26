@@ -53,7 +53,7 @@ export default function StatsTool() {
     <div className="max-w-2xl mx-auto">
       {/* Input */}
       <div className="mb-4">
-        <label className="text-sm text-ink-500 mb-1 block">
+        <label className="text-sm text-ink-500 dark:text-ink-200 mb-1 block">
           输入数据（用逗号、空格或换行分隔）
         </label>
         <textarea
@@ -79,7 +79,7 @@ export default function StatsTool() {
               { label: '极差 R', value: stats.range },
             ].map((s, i) => (
               <div key={i} className="yi-card p-3">
-                <div className="text-xs text-ink-400">{s.label}</div>
+                <div className="text-xs text-ink-400 dark:text-ink-300">{s.label}</div>
                 <div className="text-lg font-bold font-mono text-ink-950">{s.value}</div>
               </div>
             ))}
@@ -87,9 +87,9 @@ export default function StatsTool() {
 
           {/* Box plot info */}
           <div className="yi-card p-4 mb-4">
-            <h3 className="text-sm font-bold text-ink-500 mb-3">五数概括</h3>
+            <h3 className="text-sm font-bold text-ink-500 dark:text-ink-200 mb-3">五数概括</h3>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-ink-400 w-16">{stats.min}</span>
+              <span className="text-xs text-ink-400 dark:text-ink-300 w-16">{stats.min}</span>
               <div className="flex-1 relative h-8 bg-ink-50 rounded-lg overflow-hidden">
                 {/* IQR box */}
                 <div
@@ -105,9 +105,9 @@ export default function StatsTool() {
                   style={{ left: `${((stats.median - stats.min) / stats.range) * 100}%` }}
                 />
               </div>
-              <span className="text-xs text-ink-400 w-16 text-right">{stats.max}</span>
+              <span className="text-xs text-ink-400 dark:text-ink-300 w-16 text-right">{stats.max}</span>
             </div>
-            <div className="flex justify-between text-[10px] text-ink-400 mt-1 px-[4.5rem]">
+            <div className="flex justify-between text-[10px] text-ink-400 dark:text-ink-300 mt-1 px-[4.5rem]">
               <span>Q1={stats.q1.toFixed(2)}</span>
               <span>Median={stats.median.toFixed(2)}</span>
               <span>Q3={stats.q3.toFixed(2)}</span>
@@ -116,11 +116,11 @@ export default function StatsTool() {
 
           {/* Histogram */}
           <div className="yi-card p-4">
-            <h3 className="text-sm font-bold text-ink-500 mb-3">频率分布</h3>
+            <h3 className="text-sm font-bold text-ink-500 dark:text-ink-200 mb-3">频率分布</h3>
             <div className="flex items-end gap-1 h-32">
               {histogram.map((bin, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center">
-                  <div className="text-[10px] text-ink-400 mb-0.5">{bin.count}</div>
+                  <div className="text-[10px] text-ink-400 dark:text-ink-300 mb-0.5">{bin.count}</div>
                   <div
                     className="w-full rounded-t bg-ink-300 hover:bg-ink-400 transition-colors"
                     style={{ height: `${bin.height}%`, minHeight: bin.count > 0 ? '4px' : '0' }}
@@ -130,7 +130,7 @@ export default function StatsTool() {
             </div>
             <div className="flex gap-1 mt-1">
               {histogram.map((bin, i) => (
-                <div key={i} className="flex-1 text-center text-[9px] text-ink-300 truncate">
+                <div key={i} className="flex-1 text-center text-[9px] text-ink-300 dark:text-ink-400 truncate">
                   {bin.label}
                 </div>
               ))}

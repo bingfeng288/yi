@@ -32,6 +32,36 @@ export const ACHIEVEMENTS = [
     check: ({ visited }) => visited.size >= 60,
   },
 
+  // Mastery milestones
+  {
+    id: 'first-mastery',
+    name: '初入佳境',
+    desc: '掌握第一个专题',
+    icon: '⭐',
+    check: ({ mastered }) => mastered && mastered.size >= 1,
+  },
+  {
+    id: 'mastery-5',
+    name: '学有所成',
+    desc: '掌握 5 个专题',
+    icon: '🌟',
+    check: ({ mastered }) => mastered && mastered.size >= 5,
+  },
+  {
+    id: 'mastery-20',
+    name: '融会贯通',
+    desc: '掌握 20 个专题',
+    icon: '💫',
+    check: ({ mastered }) => mastered && mastered.size >= 20,
+  },
+  {
+    id: 'mastery-50',
+    name: '炉火纯青',
+    desc: '掌握 50 个专题',
+    icon: '🔥',
+    check: ({ mastered }) => mastered && mastered.size >= 50,
+  },
+
   // Domain coverage
   {
     id: 'multi-learner',

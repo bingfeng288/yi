@@ -93,9 +93,9 @@ export default function PeriodicTable() {
               }`}
               style={{ background: cat.color + '15', border: `1px solid ${cat.color}40` }}
             >
-              <div className="text-[10px] text-ink-400 font-mono">{el.z}</div>
+              <div className="text-[10px] text-ink-400 dark:text-ink-300 font-mono">{el.z}</div>
               <div className="text-lg font-bold" style={{ color: cat.color }}>{el.sym}</div>
-              <div className="text-[10px] text-ink-500">{el.name}</div>
+              <div className="text-[10px] text-ink-500 dark:text-ink-200">{el.name}</div>
             </button>
           );
         })}
@@ -109,22 +109,22 @@ export default function PeriodicTable() {
               className="w-20 h-20 rounded-xl flex flex-col items-center justify-center shrink-0"
               style={{ background: CATEGORIES[selected.category].color + '20', border: `2px solid ${CATEGORIES[selected.category].color}` }}
             >
-              <div className="text-xs text-ink-400">{selected.z}</div>
+              <div className="text-xs text-ink-400 dark:text-ink-300">{selected.z}</div>
               <div className="text-3xl font-bold" style={{ color: CATEGORIES[selected.category].color }}>{selected.sym}</div>
             </div>
             <div className="flex-1">
               <h3 className="text-xl font-bold text-ink-950">{selected.name}</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2 text-sm">
-                <div><span className="text-ink-400">原子序数：</span><span className="text-ink-700">{selected.z}</span></div>
-                <div><span className="text-ink-400">相对原子质量：</span><span className="text-ink-700">{selected.mass}</span></div>
-                <div><span className="text-ink-400">族：</span><span className="text-ink-700">第 {selected.group} 族</span></div>
-                <div><span className="text-ink-400">周期：</span><span className="text-ink-700">第 {selected.period} 周期</span></div>
+                <div><span className="text-ink-400 dark:text-ink-300">原子序数：</span><span className="text-ink-700">{selected.z}</span></div>
+                <div><span className="text-ink-400 dark:text-ink-300">相对原子质量：</span><span className="text-ink-700">{selected.mass}</span></div>
+                <div><span className="text-ink-400 dark:text-ink-300">族：</span><span className="text-ink-700">第 {selected.group} 族</span></div>
+                <div><span className="text-ink-400 dark:text-ink-300">周期：</span><span className="text-ink-700">第 {selected.period} 周期</span></div>
                 <div className="col-span-2">
-                  <span className="text-ink-400">电子排布：</span>
+                  <span className="text-ink-400 dark:text-ink-300">电子排布：</span>
                   <span className="text-ink-700 font-mono">{selected.electron}</span>
                 </div>
                 <div className="col-span-2">
-                  <span className="text-ink-400">分类：</span>
+                  <span className="text-ink-400 dark:text-ink-300">分类：</span>
                   <span
                     className="yi-badge"
                     style={{ background: CATEGORIES[selected.category].color + '20', color: CATEGORIES[selected.category].color }}

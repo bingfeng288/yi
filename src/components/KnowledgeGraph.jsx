@@ -89,6 +89,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
     // Draw function — reads hoveredNode from ref, uses current W/H/nodes
     const draw = () => {
       const hoveredNode = hoveredRef.current;
+      const isDark = document.documentElement.classList.contains('dark');
       ctx.clearRect(0, 0, W, H);
 
       // Draw edges
@@ -104,7 +105,9 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
         const my = (fromNode.y + toNode.y) / 2 + ((fromNode.x + toNode.x) / 2 - cx) * 0.15;
         ctx.quadraticCurveTo(mx, my, toNode.x, toNode.y);
 
-        ctx.strokeStyle = isHighlighted ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)';
+        ctx.strokeStyle = isHighlighted
+          ? (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.4)')
+          : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)');
         ctx.lineWidth = isHighlighted ? 2 : 1;
         ctx.stroke();
       }
@@ -128,7 +131,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
         // Node circle
         ctx.beginPath();
         ctx.arc(node.x, node.y, nodeR, 0, Math.PI * 2);
-        ctx.fillStyle = isHovered ? node.color : '#fff';
+        ctx.fillStyle = isHovered ? node.color : (isDark ? '#2c261f' : '#fff');
         ctx.fill();
         ctx.strokeStyle = node.color;
         ctx.lineWidth = 2;
@@ -142,12 +145,12 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
         ctx.fillText(node.icon, node.x, node.y);
 
         // Label
-        ctx.fillStyle = isHovered ? node.color : '#333';
+        ctx.fillStyle = isHovered ? node.color : (isDark ? '#e8e4d8' : '#333');
         ctx.font = `${isHovered ? 'bold 12px' : '11px'} system-ui, sans-serif`;
         ctx.fillText(node.name, node.x, node.y + nodeR + 14);
 
         // Progress text
-        ctx.fillStyle = '#999';
+        ctx.fillStyle = isDark ? '#645946' : '#999';
         ctx.font = '10px system-ui, sans-serif';
         ctx.fillText(`${node.visited}/${node.total}`, node.x, node.y + nodeR + 27);
       }
@@ -209,13 +212,58 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
     canvas.addEventListener('click', handleClick);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
+    // Touch support for mobile
+    let touchMoved = false;
+    const handleTouchStart = (e) => {
+      touchMoved = false;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const mx = touch.clientX - rect.left;
+      const my = touch.clientY - rect.top;
+      let found = null;
+      for (const node of nodes) {
+        const dx = mx - node.x;
+        const dy = my - node.y;
+        if (dx * dx + dy * dy < 36 * 36) { found = node.id; break; }
+      }
+      if (found) {
+        e.preventDefault(); // prevent scroll when touching a node
+        hoveredRef.current = found;
+        draw();
+      }
+    };
+    const handleTouchMove = (e) => {
+      touchMoved = true;
+      hoveredRef.current = null;
+      draw();
+    };
+    const handleTouchEnd = (e) => {
+      if (!touchMoved && hoveredRef.current) {
+        const node = nodes.find(n => n.id === hoveredRef.current);
+        if (node) setPopup({ domain: node.domain, x: node.x, y: node.y });
+      }
+      hoveredRef.current = null;
+      draw();
+    };
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove);
+    canvas.addEventListener('touchend', handleTouchEnd);
+
     const onResize = () => { layout(); draw(); };
     window.addEventListener('resize', onResize);
 
+    // Redraw when dark mode changes
+    const themeObserver = new MutationObserver(() => draw());
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
     return () => {
+      themeObserver.disconnect();
       canvas.removeEventListener('mousemove', handleMouse);
       canvas.removeEventListener('click', handleClick);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', onResize);
     };
   }, [tree, visited]);
@@ -225,7 +273,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
       <canvas ref={canvasRef} className="cursor-pointer" />
       {tooltip && !popup && (
         <div
-          className="absolute pointer-events-none bg-ink-950 text-white text-xs px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap"
+          className="absolute pointer-events-none bg-ink-950 dark:bg-ink-100 text-white dark:text-ink-950 text-xs px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap"
           style={{ left: tooltip.x, top: tooltip.y, transform: 'translateX(-50%)' }}
         >
           {tooltip.icon} {tooltip.name} · {tooltip.progress}
@@ -246,7 +294,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-lg">{popup.domain.icon}</span>
-                <span className="text-sm font-bold text-ink-950">{popup.domain.name}</span>
+                <span className="text-sm font-bold text-ink-950 dark:text-ink-50">{popup.domain.name}</span>
               </div>
               <button onClick={() => setPopup(null)} className="text-ink-300 hover:text-ink-500 text-xs">✕</button>
             </div>
@@ -261,13 +309,13 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
                       onSelect(topic, popup.domain);
                       setPopup(null);
                     }}
-                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-ink-50 transition-colors text-sm group"
+                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-ink-50 dark:hover:bg-ink-800 transition-colors text-sm group"
                   >
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{ background: level.color }}
                     />
-                    <span className="flex-1 truncate text-ink-700 group-hover:text-ink-950">{topic.name}</span>
+                    <span className="flex-1 truncate text-ink-700 dark:text-ink-300 group-hover:text-ink-950 dark:group-hover:text-ink-50">{topic.name}</span>
                     <span className="text-[9px] px-1 py-0.5 rounded" style={{ background: level.color + '20', color: level.color }}>
                       {level.name}
                     </span>
@@ -280,7 +328,7 @@ export default function KnowledgeGraph({ tree, visited, onSelect }) {
         </>
       )}
 
-      <p className="text-[10px] text-ink-300 text-center mt-2">点击学科节点展开专题列表 · 悬停查看详情</p>
+      <p className="text-[10px] text-ink-300 text-center mt-2">点击学科节点展开专题列表 · 悬停查看详情 · 支持触屏</p>
     </div>
   );
 }
