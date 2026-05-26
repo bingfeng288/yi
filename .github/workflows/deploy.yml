@@ -11,21 +11,29 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        run: |
+          git clone --depth 1 --branch master "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" repo
+          cd repo
+          echo "CLONED=true" >> $GITHUB_ENV
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: repo/package-lock.json
 
-      - name: Install and Build
-        run: |
-          npm ci
-          npm run build
+      - name: Install dependencies
+        working-directory: repo
+        run: npm ci
+
+      - name: Build
+        working-directory: repo
+        run: npm run build
 
       - name: Deploy to GitHub Pages
+        working-directory: repo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
