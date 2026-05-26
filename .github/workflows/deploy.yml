@@ -12,37 +12,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        run: |
-          git clone --depth 1 --branch master "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" repo
-          cd repo
-          echo "CLONED=true" >> $GITHUB_ENV
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: repo/package-lock.json
 
       - name: Install dependencies
-        working-directory: repo
         run: npm ci
 
       - name: Build
-        working-directory: repo
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        working-directory: repo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd dist
-          git init
+          # Clone gh-pages branch
+          git clone --depth 1 --branch gh-pages "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" gh-pages-repo
+
+          # Clear and copy new content
+          cd gh-pages-repo
+          git rm -rf . || true
+          cp -r ../dist/* .
+
+          # Commit and push
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git checkout -b gh-pages
           git add -A
           git commit -m "deploy from ${GITHUB_SHA::7}"
-          git push -f origin gh-pages
+          git push origin gh-pages
